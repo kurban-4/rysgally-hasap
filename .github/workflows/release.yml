@@ -1,10 +1,10 @@
 name: Release Build
 on:
-  workflow_dispatch: # Позволяет запустить сборку вручную кнопкой
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest # Собираем именно на Windows сервере!
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -12,11 +12,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-
-      
-        run: |
-          # GitHub сам скачает PHP для Windows!
-          choco install php --version 8.2.0
 
       - name: Install Dependencies
         run: |
