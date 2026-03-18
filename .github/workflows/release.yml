@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install PHP
+      
         run: |
           # GitHub сам скачает PHP для Windows!
           choco install php --version 8.2.0
