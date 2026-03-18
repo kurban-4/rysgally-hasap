@@ -20,9 +20,8 @@ jobs:
           cargo fetch
 
       - name: Build Tauri App
-        # Мы добавляем npm run build здесь, чтобы папка dist точно создалась перед сборкой .exe
         run: |
-          npm run build
+          npx run build
           npx @tauri-apps/cli build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
