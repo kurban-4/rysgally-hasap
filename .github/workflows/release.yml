@@ -20,7 +20,10 @@ jobs:
           cargo fetch
 
       - name: Build Tauri App
-        run: npx @tauri-apps/cli build
+        # Мы добавляем npm run build здесь, чтобы папка dist точно создалась перед сборкой .exe
+        run: |
+          npm run build
+          npx @tauri-apps/cli build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -28,4 +31,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SirinNabat-Installer
+          # Путь для Tauri v2 (судя по твоему конфигу) может немного отличаться, 
+          # этот путь самый универсальный для поиска инсталлера:
           path: src-tauri/target/release/bundle/msi/*.msi

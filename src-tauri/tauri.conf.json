@@ -3,12 +3,12 @@
   "productName": "rysgally-hasap",
   "version": "0.1.0",
   "identifier": "com.annagurban.rysgally-hasap",
- "build": {
-  "beforeDevCommand": "", 
-  "beforeBuildCommand": "npx run build",
-  "devUrl": "http://localhost:8000",
-  "frontendDist": "../dist"
-},
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:8000",
+    "frontendDist": "../dist"
+  },
   "app": {
     "windows": [
       {
