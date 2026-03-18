@@ -11,7 +11,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # Используем актуальную версию Node
+          node-version: 20
 
       - name: Install Dependencies
         run: |
@@ -21,10 +21,10 @@ jobs:
 
       - name: Build App
         run: |
-          # Собираем фронтенд через npx, чтобы точно найти vite
-          npx vite build
-          # Собираем само приложение, зная что dist уже готов
-          npx @tauri-apps/cli build
+          # Собираем фронтенд через скрипт из package.json
+          npm run build
+          # Собираем Tauri через npx
+          npx tauri build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
