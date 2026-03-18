@@ -13,17 +13,17 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
+      - name: Force Install Dependencies
         run: |
           npm install
+          # Принудительно скачиваем Vite и Tauri прямо на сервере Гитхаба!
+          npm install vite @vitejs/plugin-react @tauri-apps/cli --no-save
           cd src-tauri
           cargo fetch
 
       - name: Build App
         run: |
-          # Собираем фронтенд через скрипт из package.json
-          npm run build
-          # Собираем Tauri через npx
+          npx vite build
           npx tauri build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
