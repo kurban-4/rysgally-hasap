@@ -5,8 +5,8 @@
   "identifier": "com.annagurban.rysgally-hasap",
   "build": {
     "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "",
-    "devUrl": "http://localhost:8000",
+    "beforeBuildCommand": "", 
+    "devUrl": "http://localhost:1420",
     "frontendDist": "../dist"
   },
   "app": {

@@ -11,7 +11,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20 # Используем актуальную версию Node
 
       - name: Install Dependencies
         run: |
@@ -19,9 +19,11 @@ jobs:
           cd src-tauri
           cargo fetch
 
-      - name: Build Tauri App
+      - name: Build App
         run: |
-          npx run build
+          # Собираем фронтенд через npx, чтобы точно найти vite
+          npx vite build
+          # Собираем само приложение, зная что dist уже готов
           npx @tauri-apps/cli build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,6 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SirinNabat-Installer
-          # Путь для Tauri v2 (судя по твоему конфигу) может немного отличаться, 
-          # этот путь самый универсальный для поиска инсталлера:
           path: src-tauri/target/release/bundle/msi/*.msi
