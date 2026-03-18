@@ -5,7 +5,7 @@
   "identifier": "com.annagurban.rysgally-hasap",
  "build": {
   "beforeDevCommand": "", 
-  "beforeBuildCommand": "npm run build",
+  "beforeBuildCommand": "npx run build",
   "devUrl": "http://localhost:8000",
   "frontendDist": "../dist"
 },
