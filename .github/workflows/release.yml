@@ -20,7 +20,7 @@ jobs:
           cargo fetch
 
       - name: Build Tauri App
-        run: npx tauri build
+        run: npx @tauri-apps/cli build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
