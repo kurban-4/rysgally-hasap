@@ -59,7 +59,14 @@ jobs:
         run: |
           cd src-tauri/resources/SirinNabat
           composer install --no-dev --optimize-autoloader --ignore-platform-reqs
-
+      # Создаем временный .env, чтобы Tauri не падал при сборке
+      - name: Create temporary .env
+        shell: bash
+        run: |
+          cd src-tauri/resources/SirinNabat
+          if [ ! -f .env ]; then
+            cp .env.example .env || touch .env
+          fi
       # 6. Твой хак для обхода отсутствующего PDO MySQL
       - name: Fix Pdo\Mysql issue
         shell: bash
