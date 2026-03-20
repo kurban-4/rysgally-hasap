@@ -36,7 +36,22 @@ jobs:
           Expand-Archive php.zip -DestinationPath php-win
           Copy-Item php-win/php.exe src-tauri/binaries/php-x86_64-pc-windows-msvc.exe
           Copy-Item src-tauri/binaries/php.ini php-win/php.ini
+      - name: Install Composer dependencies
+        shell: bash
+        run: |
+          cd src-tauri/resources/SirinNabat
+          curl -sS https://getcomposer.org/installer | php
+          php composer.phar install --no-dev --optimize-autoloader
 
+      - name: Fix Pdo\Mysql issue
+        shell: bash
+        run: |
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            sed -i '' 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
+          else
+            sed -i 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
+          fi
+          
       - name: Fix Pdo\Mysql issue
         shell: bash
         run: |
