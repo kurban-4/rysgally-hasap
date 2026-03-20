@@ -25,40 +25,44 @@ jobs:
         with:
           node-version: 20
 
+      # 1. Единый и надежный способ установки PHP для обеих ОС
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_sqlite, sqlite3, mbstring, zip
+          tools: composer:v2
+
       - name: Install Rust target
         run: rustup target add ${{ matrix.target }}
 
-      - name: Download PHP binary (Windows)
+      # 2. Подготовка Sidecar бинарников (чтобы Tauri видел PHP)
+      - name: Prepare Sidecar Binary (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          mkdir -p src-tauri/binaries
+          cp $(which php) src-tauri/binaries/${{ matrix.php-binary }}
+
+      - name: Prepare Sidecar Binary (Windows)
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://windows.php.net/downloads/releases/php-8.2.28-nts-Win32-vs16-x64.zip" -OutFile php.zip
-          Expand-Archive php.zip -DestinationPath php-win
-          Copy-Item php-win/php.exe src-tauri/binaries/php-x86_64-pc-windows-msvc.exe
-          Copy-Item src-tauri/binaries/php.ini php-win/php.ini
+          mkdir -p src-tauri/binaries
+          Copy-Item (Get-Command php).Source src-tauri/binaries/${{ matrix.php-binary }}
+
+      # 3. Установка зависимостей (теперь PHP точно есть в PATH)
       - name: Install Composer dependencies
-        shell: bash
         run: |
           cd src-tauri/resources/SirinNabat
-          curl -sS https://getcomposer.org/installer | php
-          php composer.phar install --no-dev --optimize-autoloader
+          composer install --no-dev --optimize-autoloader
 
+      # Твой хак с Pdo\Mysql (оставляем, раз он нужен для работы без расширения)
       - name: Fix Pdo\Mysql issue
         shell: bash
         run: |
-          if [[ "$RUNNER_OS" == "macOS" ]]; then
-            sed -i '' 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
-          else
-            sed -i 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
-          fi
-          
-      - name: Fix Pdo\Mysql issue
-        shell: bash
-        run: |
-          if [[ "$RUNNER_OS" == "macOS" ]]; then
-            sed -i '' 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
-          else
-            sed -i 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
+          FILE="src-tauri/resources/SirinNabat/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php"
+          if [ -f "$FILE" ]; then
+            sed -i 's/PDO::MYSQL_ATTR_SSL_CA/1009/g' "$FILE" || sed -i '' 's/PDO::MYSQL_ATTR_SSL_CA/1009/g' "$FILE"
           fi
 
       - name: Clean Install
