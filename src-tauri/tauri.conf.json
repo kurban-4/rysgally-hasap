@@ -5,9 +5,9 @@
   "identifier": "com.annagurban.rysgally-hasap",
   "build": {
     "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "", 
-    "devUrl": "http://localhost:1420",
-    "frontendDist": "../dist"
+    "beforeBuildCommand": "",
+    "devUrl": "http://localhost:8000",
+    "frontendDist": "http://localhost:8000" 
   },
   "app": {
     "windows": [
@@ -20,10 +20,18 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: http://127.0.0.1:8000; connect-src 'self' http://127.0.0.1:8000 tauri://localhost"
+      "csp": "default-src 'self' tauri:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: http://127.0.0.1:8000; connect-src 'self' http://127.0.0.1:8000 tauri://localhost"
     }
   },
   "bundle": {
+   "resources": [
+  "resources/SirinNabat/**/*",
+  "resources/SirinNabat/.env",
+  "binaries/php.ini"
+],
+  "externalBin": [
+    "binaries/php"
+  ],
     "active": true,
     "targets": "all",
     "icon": [
