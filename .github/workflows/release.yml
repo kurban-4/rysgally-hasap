@@ -30,7 +30,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: pdo_sqlite, sqlite3, mbstring, zip
+          extensions: pdo_sqlite, sqlite3, mbstring, zip, fileinfo  # Добавили fileinfo
           tools: composer:v2
 
       - name: Install Rust target
@@ -58,7 +58,7 @@ jobs:
       - name: Install Composer dependencies
         run: |
           cd src-tauri/resources/SirinNabat
-          composer install --no-dev --optimize-autoloader
+          composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
       # 6. Твой хак для обхода отсутствующего PDO MySQL
       - name: Fix Pdo\Mysql issue
