@@ -40,7 +40,11 @@ jobs:
       - name: Fix Pdo\Mysql issue
         shell: bash
         run: |
-          sed -i 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            sed -i '' 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
+          else
+            sed -i 's/Pdo\\Mysql::ATTR_SSL_CA/1009/' src-tauri/resources/SirinNabat/vendor/laravel/framework/config/database.php
+          fi
 
       - name: Clean Install
         shell: bash
