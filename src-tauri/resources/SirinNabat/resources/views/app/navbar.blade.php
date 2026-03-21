@@ -21,7 +21,7 @@
                 <i class="bi bi-heart-pulse-fill text-white fs-4"></i>
             </div>
             <div class="sidebar-brand-text">
-                <h5 class="fw-bold mb-0 text-white lh-1" style="letter-spacing:-0.5px;">SirinNabat</h5>
+                <h5 class="fw-bold mb-0 text-white lh-1" style="letter-spacing:-0.5px;">RysgallyHasap</h5>
                 <small class="text-white-50 text-uppercase fw-semibold" style="font-size:0.55rem;letter-spacing:2px;">Premium Health</small>
             </div>
         </a>
