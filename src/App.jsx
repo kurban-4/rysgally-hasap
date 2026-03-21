@@ -11,18 +11,17 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      // Если переменная в .env пустая, используем порт 8000 (Laravel)
-      const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
-      
-      const response = await fetch(`${API_URL}/products`); // ТЕПЕРЬ МЫ СОХРАНЯЕМ ОТВЕТ
-      if (!response.ok) throw new Error("Ошибка сервера");
-      
-      const data = await response.json();
-      setProducts(data);
-    } catch (e) { 
-      console.error("Server bagly däl:", e); 
+        // Убедитесь, что здесь порт 8000 и нет слова /products в конце
+        const response = await fetch("http://127.0.0.1:8000/api"); 
+        
+        if (!response.ok) throw new Error("Ошибка сети");
+        
+        const data = await response.json();
+        setProducts(data); // Записываем данные в состояние
+    } catch (e) {
+        console.error("Ошибка при загрузке:", e);
     }
-  };
+};
 
   const addToCart = (p) => setCart([...cart, p]);
   const total = cart.reduce((sum, item) => sum + item.price, 0);
