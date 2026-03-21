@@ -13,7 +13,7 @@
                         <i class="bi bi-heart-pulse-fill text-white"></i>
                     </div>
                     <div>
-                        <h2 class="fw-bold mb-0 text-dark">Добро пожаловать в SirinNabat</h2>
+                        <h2 class="fw-bold mb-0 text-dark">Добро пожаловать в RysgallyHasap</h2>
                         <p class="text-muted mb-0 welcome-sub">Выберите раздел для начала работы</p>
                     </div>
                 </header>
